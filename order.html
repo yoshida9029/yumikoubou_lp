@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>購入ページ | 弓工房『清響』</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Shippori+Mincho:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style (1).css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">
+        <span class="logo-icon">清響</span>
+        <span class="logo-text">弓工房『清響』</span>
+      </a>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="index.html#about">このような射手へ</a></li>
+          <li><a href="index.html#specs">清響の構え</a></li>
+          <li><a href="index.html#workshop">工房のご案内</a></li>
+          <li><a href="order.html" class="nav-btn">今すぐご相談・ご予約</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="メニュー">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav">
+    <ul>
+      <li><a href="index.html#about">このような射手へ</a></li>
+      <li><a href="index.html#specs">清響の構え</a></li>
+      <li><a href="index.html#workshop">工房のご案内</a></li>
+      <li><a href="order.html">今すぐご相談・ご予約</a></li>
+    </ul>
+  </div>
+
+  <!-- ========== PAGE HERO ========== -->
+  <section class="page-hero">
+    <div class="page-hero-img-wrap">
+      <img src="image/yumiyoko.png" alt="清響の弓">
+    </div>
+    <div class="page-hero-overlay">
+      <h1 class="page-hero-title">購入ページ</h1>
+    </div>
+  </section>
+
+  <!-- ========== ORDER CONTENT ========== -->
+  <section class="order-section">
+    <div class="container narrow">
+      <h2 class="order-heading">ご予約にあたり</h2>
+
+      <div class="order-text">
+        <p>「清響」は、一張ごとに職人が心血を注いで製作しております。この弓を真に必要とされる射手の皆様へ、</p>
+        <p>最高の状態でお届けするため、当工房では以下の通り「対面販売」の形式を取らせていただいております。</p>
+      </div>
+
+      <div class="order-notice">
+        <p>■ ご購入の流れ</p>
+        <ol>
+          <li>専用予約フォームでの申請 本ページ下部の予約フォームより、
+    ご希望の「サイズ（並寸・伸寸など）」および「弓力（強さ）」をご指定の上、お申し込みください。</li>
+          <li>お電話による日時の確定 フォームの内容を確認後、担当者より折り返しお電話を差し上げます。
+その際、ご希望の仕様の在庫状況を確認し、工房へお越しいただく「受け取り日時」を確定させていただきます。</li>
+          <li>工房での対面販売 確定した日時に工房へ直接お越しいただき、製品を実際にご確認いただいた上でのお渡しとなります。</li>
+        </ol>
+
+        <p>■転売の未然防止に関するお願い</p>
+        <ol>
+          <li>現在、幸いなことに転売等の事例は確認されておりませんが、今後、希少な弓が不適切な形で流通することを未然に防ぎ、</li>
+          <li>一人でも多くの射手の方へ適正な価格で行き渡るよう、以下の制限を設けさせていただきます。</li>
+          <li>一回のご予約につき、ご購入は「2張まで」とさせていただきます。 あらかじめ、ご理解とご協力をお願い申し上げます。</li>
+        </ol>
+
+        <p>■ お支払い方法について</p>
+          <p>工房での決済は、「現金払いのみ」とさせていただいております。 </p>
+          <p>クレジットカードや電子決済には対応しておりませんので、お受け取り当日はご準備の上、お越しくださいますようお願い申し上げます。</p>
+          <p>「工房での対話から、信頼の一張を。」</p>
+          <p>道具との出会いもまた、修練の第一歩と考えております。 皆様と工房でお会いし、納得のいく一張を直接お渡しできる日を心よりお待ちしております。</p>
+
+
+    <!-- ========== FORM ========== -->
+    <div class="container narrow">
+      <h3 class="form-title">予約フォーム</h3>
+
+      <div class="order-form" id="orderForm">
+
+        <!-- 名前 -->
+        <div class="form-row">
+          <label class="form-label" for="fname">名前</label>
+          <div class="form-field">
+            <input type="text" id="fname" class="form-input" placeholder="">
+          </div>
+        </div>
+
+        <!-- フリガナ -->
+        <div class="form-row">
+          <label class="form-label" for="furigana">フリガナ</label>
+          <div class="form-field">
+            <input type="text" id="furigana" class="form-input" placeholder="">
+          </div>
+        </div>
+
+        <!-- メールアドレス -->
+        <div class="form-row">
+          <label class="form-label" for="email">メールアドレス</label>
+          <div class="form-field">
+            <input type="email" id="email" class="form-input" placeholder="">
+          </div>
+        </div>
+
+        <!-- 電話番号 -->
+        <div class="form-row">
+          <label class="form-label" for="tel">電話番号</label>
+          <div class="form-field">
+            <input type="tel" id="tel" class="form-input" placeholder="">
+          </div>
+        </div>
+
+        <!-- 弓の寸（ラジオ） -->
+        <div class="form-row form-row-top">
+          <label class="form-label">弓の寸</label>
+          <div class="form-field">
+            <div class="radio-group" id="sunGroup">
+              <label class="radio-label">
+                <input type="radio" name="bowSun" value="並寸" checked> 並寸
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="bowSun" value="伸寸"> 伸寸
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="bowSun" value="四寸伸"> 四寸伸
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="bowSun" value="二寸伸"> 二寸伸
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 弓の強さ（プルダウン）→ ラジオ選択で動的に変化 -->
+        <div class="form-row">
+          <label class="form-label" for="bowStrength">弓の強さ</label>
+          <div class="form-field">
+            <div class="select-wrap">
+              <select id="bowStrength" class="form-select">
+                <!-- populated by JS -->
+              </select>
+            </div>
+            <p class="form-hint" id="strengthHint">例・並寸：8〜20kg</p>
+          </div>
+        </div>
+
+        <!-- 備考 -->
+        <div class="form-row form-row-top">
+          <label class="form-label" for="note">備考</label>
+          <div class="form-field">
+            <textarea id="note" class="form-textarea" rows="5"></textarea>
+          </div>
+        </div>
+
+        <!-- 合計金額 -->
+        <div class="form-row form-total-row">
+          <label class="form-label">合計金額</label>
+          <div class="form-field total-field">
+            <span id="totalAmt">—</span>
+            <span class="yen-unit">円</span>
+          </div>
+        </div>
+
+        <!-- 送信 -->
+        <div class="form-submit-row">
+          <button type="button" class="btn-primary large" id="submitBtn">送信</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-share">
+        <span>share</span>
+        <a href="#" aria-label="YouTube">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 7s-.3-2-1.2-2.7c-1.1-1.2-2.4-1.2-3-1.3C16.3 3 12 3 12 3s-4.3 0-6.8.2c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.3v2.1C.7 15.5 1 17.7 1 17.7s.3 2 1.2 2.7c1.1 1.2 2.6 1.1 3.3 1.2C7.6 21.8 12 22 12 22s4.3 0 6.8-.3c.6-.1 1.9-.1 3-1.3.9-.7 1.2-2.7 1.2-2.7s.3-2.2.3-4.3v-2.1C23.3 9.2 23 7 23 7zm-13.8 8.8V8.2l8.1 3.8-8.1 3.8z"/></svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 1.7h3.2l-7 8 8.2 10.8h-6.5l-5-6.6-5.8 6.6H2.2l7.5-8.5L1.7 1.7h6.6l4.6 6 5.4-6zm-1.1 17h1.8L7.1 3.5H5.2l12 15.2z"/></svg>
+        </a>
+      </div>
+      <div class="footer-logo-block">
+        <div class="footer-logo-seal"><img src="image/fotterlogo.png" alt="ロゴ"></div>
+        <p class="footer-logo-name">弓工房『清響』</p>
+      </div>
+      <div class="footer-info">
+        <p>弓工房「清響」<br>
+        885-0114 宮崎県都城市 弦竹谷 4-22-1<br>
+        営業時間：10：00〜19：00<br>
+        定休日：火・日・祝<br>
+        夏季・年末年始等</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- <script src="main.js"></script> -->
+</body>
+</html>
