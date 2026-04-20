@@ -5,23 +5,58 @@
 'use strict';
 
 // ─────────────────────────────────────────────
-// ハンバーガーメニュー
+// ハンバーガー / モバイルナビ（右スライドドロワー）
 // ─────────────────────────────────────────────
-(function initHamburger() {
-  var btn = document.getElementById('hamburger');
-  var nav = document.getElementById('mobileNav');
-  if (!btn || !nav) return;
+(function initMobileNav() {
+  var hamburger = document.getElementById('hamburger');
+  var mobileNav = document.getElementById('mobileNav');
+  var overlay   = document.getElementById('mobileNavOverlay');
+  var closeBtn  = document.getElementById('mobileNavClose');
 
-  btn.addEventListener('click', function () {
-    var open = nav.classList.toggle('open');
-    btn.classList.toggle('open', open);
+  if (!hamburger || !mobileNav) return;
+
+  function openNav() {
+    mobileNav.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileNav.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // スクロール停止
+  }
+
+  function closeNav() {
+    mobileNav.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileNav.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', function () {
+    if (mobileNav.classList.contains('open')) {
+      closeNav();
+    } else {
+      openNav();
+    }
   });
 
-  nav.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      nav.classList.remove('open');
-      btn.classList.remove('open');
-    });
+  // 閉じるボタン
+  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+
+  // オーバーレイクリックで閉じる
+  if (overlay) overlay.addEventListener('click', closeNav);
+
+  // ナビリンククリックで閉じる
+  mobileNav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', closeNav);
+  });
+
+  // Escキーで閉じる
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+      closeNav();
+    }
   });
 }());
 
@@ -41,46 +76,76 @@
 }());
 
 // ─────────────────────────────────────────────
-// 予約フォーム — 弓の強さプルダウン
+// スクロールフェードイン
+// ─────────────────────────────────────────────
+(function initFadeIn() {
+  var targets = document.querySelectorAll('.js-fade');
+  if (!targets.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  targets.forEach(function (el) { io.observe(el); });
+}());
+
+// ─────────────────────────────────────────────
+// 予約フォーム
 //
-//  並寸   : 8〜20 kg （1kg刻み）
-//  伸寸   : 11〜20 kg
-//  四寸伸 : 11〜20 kg
-//  二寸伸 : 8〜20 kg
+// 弓の強さ範囲：
+//   並寸   : 8〜20 kg
+//   伸寸   : 11〜20 kg
+//   四寸伸 : 11〜20 kg
+//   三寸詰 : 8〜18 kg
+//
+// 単価：
+//   並寸・三寸詰 : 90,000円
+//   伸寸         : 96,000円
+//   四寸伸       : 112,000円
+//
+// 合計 = 単価 × 本数
 // ─────────────────────────────────────────────
 (function initOrderForm() {
-  var select  = document.getElementById('bowStrength');
-  var hint    = document.getElementById('strengthHint');
-  var radios  = document.querySelectorAll('input[name="bowSun"]');
-  var totalEl = document.getElementById('totalAmt');
+  var strengthSelect = document.getElementById('bowStrength');
+  var quantitySelect = document.getElementById('quantity');
+  var hint           = document.getElementById('strengthHint');
+  var totalEl        = document.getElementById('totalAmt');
+  var quantityError  = document.getElementById('quantityError');
+  var radios         = document.querySelectorAll('input[name="bowSun"]');
 
-  if (!select || !radios.length) return;
+  if (!strengthSelect || !radios.length) return;
 
-  // 寸ごとの弓力レンジ
   var RANGES = {
     '並寸':   { min: 8,  max: 20 },
     '伸寸':   { min: 11, max: 20 },
     '四寸伸': { min: 11, max: 20 },
-    '二寸伸': { min: 8,  max: 20 },
+    '三寸詰': { min: 8,  max: 18 },
   };
 
-  // 寸ごとのヒントテキスト
   var HINTS = {
     '並寸':   '並寸：8〜20kg',
     '伸寸':   '伸寸：11〜20kg',
     '四寸伸': '四寸伸：11〜20kg',
-    '二寸伸': '二寸伸：8〜20kg',
+    '三寸詰': '三寸詰：8〜18kg',
   };
 
-  // 参考価格（基本）
-  var BASE_PRICE = {
-    '並寸':   680000,
-    '伸寸':   800000,
-    '四寸伸': 1000000,
-    '二寸伸': 680000,
+  var UNIT_PRICE = {
+    '並寸':   90000,
+    '伸寸':   96000,
+    '四寸伸': 112000,
+    '三寸詰': 90000,
   };
 
-  /* 選択中の寸を取得 */
   function getSelectedSun() {
     for (var i = 0; i < radios.length; i++) {
       if (radios[i].checked) return radios[i].value;
@@ -88,63 +153,68 @@
     return '並寸';
   }
 
-  /* プルダウンを再生成 */
-  function buildSelect(sun) {
+  function buildStrengthSelect(sun) {
     var range = RANGES[sun];
-    select.innerHTML = '';
+    if (!range) return;
 
-    // 先頭に選択促し
+    strengthSelect.innerHTML = '';
+
     var ph = document.createElement('option');
     ph.value = '';
     ph.textContent = '選択してください';
     ph.disabled = true;
     ph.selected = true;
-    select.appendChild(ph);
+    strengthSelect.appendChild(ph);
 
     for (var kg = range.min; kg <= range.max; kg++) {
       var opt = document.createElement('option');
       opt.value = String(kg);
       opt.textContent = kg + ' kg';
-      select.appendChild(opt);
+      strengthSelect.appendChild(opt);
     }
 
     if (hint) hint.textContent = HINTS[sun] || '';
     updateTotal();
   }
 
-  /* 合計金額を更新 */
   function updateTotal() {
     if (!totalEl) return;
-    var sun = getSelectedSun();
-    var kg  = parseInt(select.value, 10);
-
-    if (!kg) {
-      totalEl.textContent = '—';
-      return;
-    }
-
-    var base  = BASE_PRICE[sun] || 680000;
-    var extra = (kg - RANGES[sun].min) * 20000;
-    var total = base + extra;
-    totalEl.textContent = total.toLocaleString('ja-JP');
+    var sun       = getSelectedSun();
+    var unitPrice = UNIT_PRICE[sun] || 90000;
+    var qty       = quantitySelect ? parseInt(quantitySelect.value, 10) || 1 : 1;
+    totalEl.textContent = (unitPrice * qty).toLocaleString('ja-JP');
   }
 
-  /* ラジオ変更時 */
+  function validateQuantity() {
+    if (!quantitySelect || !quantityError) return true;
+    var qty = parseInt(quantitySelect.value, 10);
+    if (qty > 2) {
+      quantityError.style.display = 'block';
+      return false;
+    }
+    quantityError.style.display = 'none';
+    return true;
+  }
+
   radios.forEach(function (r) {
     r.addEventListener('change', function () {
-      buildSelect(this.value);
+      buildStrengthSelect(this.value);
     });
   });
 
-  /* プルダウン変更時 */
-  select.addEventListener('change', updateTotal);
+  strengthSelect.addEventListener('change', updateTotal);
 
-  /* 初期化 */
-  buildSelect(getSelectedSun());
+  if (quantitySelect) {
+    quantitySelect.addEventListener('change', function () {
+      validateQuantity();
+      updateTotal();
+    });
+  }
 
-  // ─────────────────────────────────────────
+  // 初期化（ページ読み込み時に即実行）
+  buildStrengthSelect(getSelectedSun());
+
   // 送信ボタン
-  // ─────────────────────────────────────────
   var submitBtn = document.getElementById('submitBtn');
   if (!submitBtn) return;
 
@@ -154,44 +224,16 @@
     var strength = document.getElementById('bowStrength');
     var errors   = [];
 
-    if (!name  || !name.value.trim())     errors.push('名前');
-    if (!email || !email.value.trim())    errors.push('メールアドレス');
-    if (!strength || !strength.value)     errors.push('弓の強さ');
+    if (!name  || !name.value.trim())  errors.push('名前');
+    if (!email || !email.value.trim()) errors.push('メールアドレス');
+    if (!strength || !strength.value)  errors.push('弓の強さ');
+    if (!validateQuantity())           errors.push('注文本数（最大2張）');
 
     if (errors.length) {
-      alert('以下の項目を入力・選択してください：\n' + errors.join('、'));
+      alert('以下の項目を確認してください：\n' + errors.join('、'));
       return;
     }
 
     alert('ご相談・ご予約を承りました。\n弓師より数日内にご連絡差し上げます。\n\nありがとうございました。');
   });
-}());
-
-// ─────────────────────────────────────────────
-// スクロールフェードイン
-// ─────────────────────────────────────────────
-(function initFadeIn() {
-  var targets = document.querySelectorAll(
-    '.about-item, .spec-row, .intro-note, .workshop-text-col, ' +
-    '.order-text, .order-notice, .order-sub-note'
-  );
-  if (!targets.length || !('IntersectionObserver' in window)) return;
-
-  targets.forEach(function (el) {
-    el.style.opacity   = '0';
-    el.style.transform = 'translateY(16px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-  });
-
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity   = '1';
-        entry.target.style.transform = 'translateY(0)';
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  targets.forEach(function (el) { io.observe(el); });
 }());
