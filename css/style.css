@@ -335,9 +335,9 @@ a { color: inherit; text-decoration: none; }
 
 .about-item {
   display: flex;
-  gap: 16px;                    /* アイコンとテキストの間隔 広げた */
+  gap: 16px;
   color: #3a3028;
-  padding: 32px 0;              /* 上下パディング 22px→32px */
+  padding: 32px 0;
   border-bottom: 1px solid var(--border);
 }
 .about-item:first-child { border-top: 1px solid var(--border); }
@@ -352,16 +352,16 @@ a { color: inherit; text-decoration: none; }
 
 .about-item-body {
   flex: 1;
-  font-size: 0.85rem;           /* 0.83rem → 0.85rem */
-  line-height: 2.2;             /* 2.1 → 2.2 */
+  font-size: 0.85rem;
+  line-height: 2.2;
 }
 
 .about-item-body strong {
   display: block;
-  font-size: 0.95rem;           /* タイトル少し大きく */
+  font-size: 0.95rem;
   font-weight: 600;
   color: var(--brown-dark);
-  margin-bottom: 10px;          /* 4px → 10px で余白 */
+  margin-bottom: 10px;
   letter-spacing: .04em;
 }
 
@@ -370,33 +370,22 @@ a { color: inherit; text-decoration: none; }
   line-height: 2.2;
 }
 
-/* ── 職人テキスト＋画像（画像左・テキスト右） ── */
+/* =============================================
+   INTRO-NOTE（職人テキスト＋画像）
+   ▼ CHANGE 1: 常に縦並び（画像上・テキスト下）
+   ============================================= */
 .intro-note {
-  display: grid;
-  grid-template-columns: 420px 1fr;   /* 画像左固定・テキスト右可変 */
-  gap: 56px;
-  align-items: flex-start;
+  display: flex;
+  flex-direction: column;   /* 常に縦積み */
+  gap: 32px;
   margin-top: 8px;
   padding-top: 8px;
 }
-.intro-note-text {
-  font-size: 0.82rem;
-  line-height: 30px;                  /* 行間 30px */
-  color: #4a3f30;
-}
-.intro-note-text p { margin-bottom: 30px; }
-.intro-note-text ul {
-  padding-left: 1.2em;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;                          /* リスト項目間も30px */
-}
-.intro-note-text li { list-style: disc; }
 
-/* 画像を左側に */
 .intro-note-img {
-  order: -1;                          /* グリッド内で左に来るよう明示 */
+  order: 0;                 /* 画像が上 */
 }
+
 .syokuninimg {
   width: 100%;
   height: 380px;
@@ -404,6 +393,20 @@ a { color: inherit; text-decoration: none; }
   object-position: center;
   display: block;
 }
+
+.intro-note-text {
+  font-size: 0.82rem;
+  line-height: 30px;
+  color: #4a3f30;
+}
+.intro-note-text p { margin-bottom: 30px; }
+.intro-note-text ul {
+  padding-left: 1.2em;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.intro-note-text li { list-style: disc; }
 
 /* =============================================
    SPECS
@@ -456,19 +459,19 @@ a { color: inherit; text-decoration: none; }
 /* =============================================
    WORKSHOP
    ============================================= */
-.workshop { padding: 96px 0 80px; background: var(--white); }  /* パディング増加 */
-.workshop-hero-img { height: 360px; overflow: hidden; margin-bottom: 72px; }  /* 下余白増加 */
+.workshop { padding: 96px 0 80px; background: var(--white); }
+.workshop-hero-img { height: 360px; overflow: hidden; margin-bottom: 72px; }
 .workshop-hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
 .workshop-body { font-size: 0.85rem; line-height: 2.4; color: #3a3028; margin-bottom: 24px; }
 .workshop-body p { margin-bottom: 12px; }
 
-/* 工房内：左画像・右テキスト（490x410） */
+/* 工房内：左画像・右テキスト */
 .workshop-1col {
   display: grid;
-  grid-template-columns: 490px 1fr;   /* 画像固定幅・テキスト可変 */
+  grid-template-columns: 490px 1fr;
   gap: 56px;
   max-width: 960px;
-  margin: 64px auto 0;                /* 上余白増加 */
+  margin: 64px auto 0;
   padding: 0 32px;
   align-items: start;
 }
@@ -483,13 +486,18 @@ a { color: inherit; text-decoration: none; }
   display: block;
 }
 
-/* 住所：左テキスト・右画像（画像を右に） */
+/* =============================================
+   WORKSHOP-2COL
+   ▼ CHANGE 2: デスクトップ — テキスト左・画像右
+      grid-template-columns: 1fr 610px
+      HTML側でテキストを先・画像を後に並べる
+   ============================================= */
 .workshop-2col {
   display: grid;
-  grid-template-columns: 1fr 610px;   /* テキスト:画像 左右 */
+  grid-template-columns: 1fr 610px;   /* 左:テキスト 右:画像 */
   gap: 56px;
   max-width: 1040px;
-  margin: 64px auto 0;                /* 上余白増加 */
+  margin: 64px auto 0;
   padding: 0 32px;
   align-items: start;
 }
@@ -541,7 +549,7 @@ a { color: inherit; text-decoration: none; }
 }
 .footer-share-icons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   gap: 12px;
 }
@@ -683,15 +691,9 @@ a { color: inherit; text-decoration: none; }
 .form-submit-row { text-align: center; padding-top: 36px; }
 
 /* =============================================
-   RESPONSIVE — Tablet
+   RESPONSIVE — Tablet (≤900px)
    ============================================= */
 @media (max-width: 900px) {
-  .intro-note { flex-direction: column; gap: 32px; }
-  /* intro-note タブレット：縦並び（画像上・テキスト下） */
-  .intro-note { grid-template-columns: 1fr; gap: 32px; }
-  .intro-note-img { order: 0; }      /* タブレットでは画像が上 */
-  .syokuninimg { width: 100%; height: 320px; }
-
   /* workshop タブレット */
   .workshop-1col { grid-template-columns: 1fr; gap: 32px; }
   .workshop-img1-col img { width: 100%; height: 280px; }
@@ -730,8 +732,17 @@ a { color: inherit; text-decoration: none; }
   .about-item-body { font-size: 0.82rem; }
   .about-item-body strong { font-size: 0.88rem; margin-bottom: 8px; }
 
+  /* INTRO-NOTE モバイル */
+  .syokuninimg { height: 240px; }
+
   /* SPECS */
   .specs-grid { grid-template-columns: 1fr; gap: 32px; }
+
+  /* ▼ CHANGE 3: モバイルでspecsのボタンを中央揃え */
+  .specs-content .btn-primary {
+    display: block;
+    text-align: center;
+  }
 
   /* WORKSHOP */
   .workshop { padding: 56px 0 48px; }

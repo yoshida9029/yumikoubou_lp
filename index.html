@@ -143,7 +143,8 @@
         </div>
       </div>
 
-      <!-- 職人テキスト＋画像（画像左・テキスト右） -->
+      <!-- 職人テキスト＋画像（画像上・テキスト下） -->
+      <!-- ▼ CHANGE 1: intro-note は常に縦並び（画像上・テキスト下） -->
       <div class="intro-note js-fade">
         <div class="intro-note-img">
           <img src="image/syokuninsagyou.png" alt="職人の作業" class="syokuninimg">
@@ -245,19 +246,20 @@
         <p>壁に整然と並ぶ道具の一つひとつが、これまで積み上げてきた信頼と技術の歴史を物語っています。</p>
       </div>
     </div>
-    <div class="workshop-2col js-fade">
-            <div class="workshop-img-col">
-        <img src="image/koubougaikan.png" alt="工房外観" class="workshop-gaikan-img">
-      </div>
-    </div>
 
+    <!-- ▼ CHANGE 2: workshop-2col — テキスト左・画像右。workshop-text-col を内側に移動 -->
+    <div class="workshop-2col js-fade">
       <div class="workshop-text-col">
         <p class="ws-address">〒885-0114　宮崎県都城市 弦竹谷（つるたけだに） 4-22-1<br>TEL：0986-36-5080</p>
         <p>宮崎自動車道「都城IC」より車で約20分。</p>
         <p>霧島連山の麓、竹林の小径を進んだ突き当たりにございます。</p>
         <p class="ws-small">※職人が一張ずつ手作業で制作しているため、作業中はお電話に出られない場合がございます。修理でのご来訪の際は、事前のご予約をお願い申し上げます。</p>
       </div>
+      <div class="workshop-img-col">
+        <img src="image/koubougaikan.png" alt="工房外観" class="workshop-gaikan-img">
+      </div>
     </div>
+
     <div class="cta-center js-fade">
       <a href="order.html" class="btn-outline">ご相談・ご予約</a>
     </div>
